@@ -71,3 +71,15 @@
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+web/
+.flutter-plugins-dependencies
+README.md
+test/
+macos/
+android/
+ios/
+test/
+.metadata
+pubspec.lock
+README.md

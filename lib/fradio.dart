@@ -1,179 +1,185 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class FRadio<T> extends StatefulWidget {
   final T value;
 
-  T groupValue;
+  final T groupValue;
 
   final ValueChanged<T> onChanged;
 
-  bool asCheckbox = false;
+  final bool enable;
 
-  Widget unselectedChild;
+  final bool toggleable;
 
-  Widget selectedChild;
+  final double width;
 
-  Widget disableChild;
+  final double height;
 
-  bool enable = true;
+  final FocusNode focusNode;
 
-  double width;
+  final bool autofocus;
 
-  double height;
+  Widget normal;
 
-  T cacheGroupValue;
+  Widget selected;
+
+  Widget disableNormal;
+
+  Widget disableSelected;
+
+  Widget hover;
+
+  T _cacheGroupValue;
 
   FRadio({
     Key key,
     @required this.value,
     @required this.groupValue,
     @required this.onChanged,
-    this.width = 42,
-    this.height = 42,
+    this.width = 27,
+    this.height = 27,
     this.enable = true,
-    this.asCheckbox = false,
-    this.unselectedChild,
-    this.selectedChild,
-    this.disableChild,
-  })  : cacheGroupValue = groupValue,
-        assert(unselectedChild != null && selectedChild != null),
-        assert(!(!enable && disableChild == null),
-        "The 'disableChild' param can't be null when 'enable=false'."),
-        super(key: key);
-
-  FRadio.style1({
-    Key key,
-    @required this.value,
-    @required this.groupValue,
-    @required this.onChanged,
-    this.width = 42,
-    this.height = 42,
-    this.enable = true,
-    this.asCheckbox = false,
-    Color color,
-  })  : this.unselectedChild = Container(
-    color: Colors.transparent,
-    width: width,
-    height: height,
-  ),
-        this.selectedChild = Container(
-          width: width,
-          height: height,
-          child: Icon(
-            Icons.check,
-            color: color ?? Color(0xffFCA500),
-            size: width.toDouble() / 42.toDouble() * 30.toDouble(),
+    this.toggleable = false,
+    this.normal,
+    this.focusNode,
+    this.autofocus = false,
+    Color selectedColor = const Color(0xff2593fc),
+    Color normalColor = const Color(0xffd9d9d9),
+    Gradient selectedGradient,
+    double corner,
+    bool hasSpace = true,
+    double border,
+    Widget child,
+    Widget selectedChild,
+    Widget hoverChild,
+    Gradient gradient,
+    Duration duration = const Duration(milliseconds: 180),
+    bool fill = true,
+  }) : super(key: key) {
+    corner = corner ?? width / 2;
+    border = border ?? width * 0.075;
+    selected = AnimatedContainer(
+      duration: duration,
+      decoration: BoxDecoration(
+        border: (hasSpace || !fill)
+            ? Border.all(color: selectedColor, width: border)
+            : null,
+        borderRadius: BorderRadius.all(Radius.circular(corner)),
+      ),
+      child: Container(
+        width: width,
+        height: height,
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          duration: duration,
+          width: hasSpace ? width * 0.518 : width,
+          height: hasSpace ? height * 0.518 : height,
+          decoration: fill
+              ? BoxDecoration(
+                  color: selectedColor,
+                  borderRadius: BorderRadius.all(Radius.circular(corner)),
+                  gradient: gradient,
+                )
+              : null,
+        ),
+      ),
+    );
+    selected = Stack(
+      alignment: Alignment.center,
+      children: [
+        selected,
+        selectedChild ?? Container(),
+      ],
+    );
+    normal = AnimatedContainer(
+      duration: duration,
+      decoration: BoxDecoration(
+        border: Border.all(color: normalColor, width: border),
+        borderRadius: BorderRadius.all(Radius.circular(corner)),
+      ),
+      child: Container(
+        width: width,
+        height: height,
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          duration: duration,
+          width: 0,
+          height: 0,
+          decoration: BoxDecoration(
+            color: normalColor,
+            borderRadius: BorderRadius.all(Radius.circular(corner)),
           ),
         ),
-        this.disableChild = Container(
-          color: Colors.transparent,
-          width: width,
-          height: height,
-        ),
-        super(key: key);
-
-  FRadio.style2({
-    Key key,
-    @required this.value,
-    @required this.groupValue,
-    @required this.onChanged,
-    this.width = 42,
-    this.height = 42,
-    this.enable = true,
-    this.asCheckbox = false,
-    Color color,
-  })  : this.unselectedChild = Container(
-    decoration: BoxDecoration(
-      // 设置边框
-        border: Border.all(
-            width: width / 42 * 2, color: color ?? Color(0xffE0E0E0)),
-        // 设置圆角
-        borderRadius: BorderRadius.all(Radius.circular(width / 42 * 6))),
-  ),
-        this.selectedChild = Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                // 设置边框
-                border: Border.all(
-                    width: width / 42 * 2, color: color ?? Color(0xffFCA500)),
-                // 设置圆角
-                borderRadius:
-                BorderRadius.all(Radius.circular(width / 42 * 6))),
-            child: Icon(
-              Icons.check,
-              color: color ?? Color(0xffFCA500),
-              size: width.toDouble() / 42.toDouble() * 30.toDouble(),
-            )),
-        this.disableChild = Container(
-          decoration: BoxDecoration(
-              color: Color(0xffE0E0E0),
-              // 设置边框
-              border:
-              Border.all(width: width / 42 * 2, color: Color(0xffCCCCCC)),
-              // 设置圆角
-              borderRadius: BorderRadius.all(Radius.circular(width / 42 * 6))),
-          child: value == groupValue
-              ? Icon(
-            Icons.check,
-            color: Color(0xffCCCCCC),
-            size: width.toDouble() / 42.toDouble() * 30.toDouble(),
-          )
+      ),
+    );
+    normal = Stack(
+      alignment: Alignment.center,
+      children: [
+        normal,
+        child ?? Container(),
+      ],
+    );
+    disableSelected = ColorFiltered(
+      colorFilter: ColorFilter.mode(
+          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+      child: selected,
+    );
+    disableNormal = ColorFiltered(
+      colorFilter: ColorFilter.mode(
+          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+      child: normal,
+    );
+    hover = AnimatedContainer(
+      duration: duration,
+      decoration: BoxDecoration(
+        border: Border.all(color: selectedColor, width: border),
+        borderRadius: BorderRadius.all(Radius.circular(corner)),
+      ),
+      child: Container(
+        width: width,
+        height: height,
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          duration: duration,
+          width: 0,
+          height: 0,
+          decoration: fill
+              ? BoxDecoration(
+                  color: selectedColor,
+                  borderRadius: BorderRadius.all(Radius.circular(corner)),
+                  gradient: gradient,
+                )
               : null,
         ),
-        super(key: key);
+      ),
+    );
+    hover = Stack(
+      alignment: Alignment.center,
+      children: [
+        hover,
+        hoverChild ?? Container(),
+      ],
+    );
+  }
 
-  FRadio.style3({
+  FRadio.custom({
     Key key,
-    @required this.value,
-    @required this.groupValue,
-    @required this.onChanged,
-    this.width = 42,
-    this.height = 42,
-    this.enable = true,
-    this.asCheckbox = false,
-    Color color1,
-    Color color2,
-  })  : this.unselectedChild = Container(
-    decoration: BoxDecoration(
-      // 设置边框
-        border: Border.all(
-            width: width / 42 * 2, color: color1 ?? Color(0xffFF9F02)),
-        // 设置圆角
-        borderRadius: BorderRadius.all(Radius.circular(width / 2))),
-  ),
-        this.selectedChild = Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      color1 ?? Color(0xffFCD71E),
-                      color2 ?? Color(0xffFF9F02)
-                    ]),
-                // 设置圆角
-                borderRadius: BorderRadius.all(Radius.circular(width / 2))),
-            child: Icon(
-              Icons.check,
-              color: Color(0xffffffff),
-              size: width.toDouble() / 42.toDouble() * 30.toDouble(),
-            )),
-        this.disableChild = Container(
-          decoration: BoxDecoration(
-              color: Color(0xffE0E0E0),
-              // 设置边框
-              border:
-              Border.all(width: width / 42 * 2, color: Color(0xffCCCCCC)),
-              // 设置圆角
-              borderRadius: BorderRadius.all(Radius.circular(width / 2))),
-          child: value == groupValue
-              ? Icon(
-            Icons.check,
-            color: Color(0xffCCCCCC),
-            size: width.toDouble() / 42.toDouble() * 30.toDouble(),
-          )
-              : null,
-        ),
-        super(key: key);
+    this.value,
+    this.groupValue,
+    this.onChanged,
+    this.normal,
+    this.selected,
+    this.disableNormal,
+    this.disableSelected,
+    this.hover,
+    this.enable,
+    this.toggleable,
+    this.width,
+    this.height,
+    this.focusNode,
+    this.autofocus,
+  }) : super(key: key) {}
 
   @override
   State<StatefulWidget> createState() {
@@ -182,41 +188,142 @@ class FRadio<T> extends StatefulWidget {
 }
 
 class _Radio<T> extends State<FRadio<T>> {
-  bool get _enabled => widget.enable && widget.onChanged != null;
+  bool get enabled => widget.enable;
 
-  bool get _selected => widget.value == widget.groupValue;
+  bool get selected => widget.value == widget.groupValue;
 
-  _handOnTap() {
-    if (widget.asCheckbox) {
-      setState(() {
-        if (widget.groupValue == widget.value) {
-          widget.groupValue = widget.cacheGroupValue;
-        } else {
-          widget.groupValue = widget.value;
-        }
-      });
+  T cacheGroupValue;
+
+  bool hover = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _handOnTap() {
+    if (widget.onChanged != null) {
+      if (widget.toggleable) {
+        widget.onChanged(selected ? null : widget.value);
+      } else {
+        widget.onChanged(widget.value);
+      }
     }
-    widget.onChanged(widget.value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _enabled ? _handOnTap : null,
-      child: Container(
-//        color: Colors.grey,
-        width: widget.width,
-        height: widget.height,
-        child: _buildChild(),
-      ),
+    cacheGroupValue = widget.groupValue;
+    Widget child = Container(
+      width: widget.width,
+      height: widget.height,
+      child: _buildChild(),
+    );
+    if (enabled) {
+      child = GestureDetector(
+        onTap: enabled ? _handOnTap : null,
+        child: child,
+      );
+    }
+    return FocusableActionDetector(
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
+      onShowFocusHighlight: _handleHighlightChanged,
+      onShowHoverHighlight: _handleHoverChanged,
+      child: child,
     );
   }
 
   _buildChild() {
     if (widget.enable) {
-      return _selected ? widget.selectedChild : widget.unselectedChild;
+      Widget normal = widget.normal ?? buildDefaultNormalWidget();
+      if (hover) {
+        normal = widget.hover ?? normal;
+      }
+      return selected
+          ? widget.selected ?? buildDefaultSelectedWidget()
+          : normal;
     } else {
-      return widget.disableChild;
+      return selected
+          ? widget.disableSelected ?? buildDefaultDisableSelectedWidget()
+          : widget.disableNormal ?? buildDefaultDisableNormalWidget();
     }
+  }
+
+  Widget buildDefaultSelectedWidget() {
+    var duration = Duration(milliseconds: 100);
+    return AnimatedContainer(
+      duration: duration,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Color(0xff2593fc), width: widget.width * 0.2 * 0.2),
+        borderRadius: BorderRadius.all(Radius.circular(widget.width)),
+      ),
+      child: Container(
+        width: widget.width,
+        height: widget.height,
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          duration: duration,
+          width: widget.width * 0.8,
+          height: widget.height * 0.8,
+          decoration: BoxDecoration(
+            color: Color(0xff2593fc),
+            borderRadius: BorderRadius.all(Radius.circular(widget.width)),
+          ),
+          child: Container(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDefaultNormalWidget() {
+    var duration = Duration(milliseconds: 100);
+    return AnimatedContainer(
+      duration: duration,
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Color(0xffd9d9d9), width: widget.width * 0.2 * 0.2),
+          borderRadius: BorderRadius.all(Radius.circular(widget.width))),
+      child: Container(
+        width: widget.width,
+        height: widget.height,
+        alignment: Alignment.center,
+        child: AnimatedContainer(
+          duration: duration,
+          width: 0,
+          height: 0,
+          decoration: BoxDecoration(
+            color: Color(0xffd9d9d9),
+            borderRadius: BorderRadius.all(Radius.circular(widget.width)),
+          ),
+          child: Container(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDefaultDisableSelectedWidget() {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+      child: buildDefaultSelectedWidget(),
+    );
+  }
+
+  Widget buildDefaultDisableNormalWidget() {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+      child: buildDefaultNormalWidget(),
+    );
+  }
+
+  void _handleHighlightChanged(bool value) {}
+
+  void _handleHoverChanged(bool value) {
+    setState(() {
+      hover = value;
+    });
   }
 }

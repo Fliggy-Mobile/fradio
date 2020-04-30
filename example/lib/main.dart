@@ -43,7 +43,7 @@ class _FRadioPageState extends State<FRadioPage> {
 
   int groupValue_6 = 0;
 
-  int groupValue_7 = 0;
+  int groupValue_7 = -1;
 
   List<String> list;
 
@@ -180,24 +180,14 @@ class _FRadioPageState extends State<FRadioPage> {
               height: 100,
               color: Colors.white,
               padding: EdgeInsets.only(left: 12, right: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("${list[index]}"),
-                ],
-              ),
+              child: text(index),
             ),
             hover: Container(
               width: 250,
               height: 100,
               color: Color(0xff212121).withOpacity(0.05),
               padding: EdgeInsets.only(left: 12, right: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("${list[index]}"),
-                ],
-              ),
+              child: text(index),
             ),
             selected: Container(
               padding: EdgeInsets.only(left: 12, right: 12),
@@ -217,6 +207,15 @@ class _FRadioPageState extends State<FRadioPage> {
           );
         },
       ),
+    );
+  }
+
+  Row text(int index) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text("${list[index]}"),
+      ],
     );
   }
 
@@ -517,6 +516,7 @@ class _FRadioPageState extends State<FRadioPage> {
             });
           },
           toggleable: true,
+          enable: enable_1,
           selectedColor: Color(0xffffc900),
         ),
         const SizedBox(width: 5),
@@ -546,6 +546,7 @@ class _FRadioPageState extends State<FRadioPage> {
             });
           },
           toggleable: true,
+          enable: enable_1,
           selectedColor: Color(0xffffc900),
         ),
         const SizedBox(width: 5),
@@ -607,25 +608,6 @@ class _FRadioPageState extends State<FRadioPage> {
     return const SizedBox(
       height: 18,
     );
-  }
-
-  void _showDialog(BuildContext context, String msg) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    msg,
-                    style: TextStyle(color: Colors.white, fontSize: 12),
-                  ),
-                ],
-              ),
-              backgroundColor: Colors.black45,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-            ));
   }
 
   Padding buildDesc(String desc) {

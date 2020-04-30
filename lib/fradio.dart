@@ -41,31 +41,39 @@ class FRadio<T> extends StatefulWidget {
     this.height = 27,
     this.enable = true,
     this.toggleable = false,
-    this.normal,
     this.focusNode,
     this.autofocus = false,
     Color selectedColor = const Color(0xff2593fc),
     Color normalColor = const Color(0xffd9d9d9),
-    Gradient selectedGradient,
-    double corner,
     bool hasSpace = true,
     double border,
     Widget child,
     Widget selectedChild,
     Widget hoverChild,
     Gradient gradient,
-    Duration duration = const Duration(milliseconds: 180),
+    Duration duration = const Duration(milliseconds: 150),
     bool fill = true,
+    FRadioCorner corner,
   }) : super(key: key) {
-    corner = corner ?? width / 2;
+    if (hoverChild == null) {
+      hoverChild = selectedChild;
+    }
     border = border ?? width * 0.075;
+    BorderRadius borderRadius = corner == null
+        ? BorderRadius.all(Radius.circular(width / 2.0))
+        : BorderRadius.only(
+            topLeft: Radius.circular(corner.leftTopCorner),
+            topRight: Radius.circular(corner.rightTopCorner),
+            bottomRight: Radius.circular(corner.rightBottomCorner),
+            bottomLeft: Radius.circular(corner.leftBottomCorner),
+          );
     selected = AnimatedContainer(
       duration: duration,
       decoration: BoxDecoration(
-        border: (hasSpace || !fill)
-            ? Border.all(color: selectedColor, width: border)
-            : null,
-        borderRadius: BorderRadius.all(Radius.circular(corner)),
+        border: Border.all(
+            color: (hasSpace || !fill) ? selectedColor : Colors.transparent,
+            width: (hasSpace || !fill) ? border : 0),
+        borderRadius: borderRadius,
       ),
       child: Container(
         width: width,
@@ -78,7 +86,7 @@ class FRadio<T> extends StatefulWidget {
           decoration: fill
               ? BoxDecoration(
                   color: selectedColor,
-                  borderRadius: BorderRadius.all(Radius.circular(corner)),
+                  borderRadius: borderRadius,
                   gradient: gradient,
                 )
               : null,
@@ -96,7 +104,7 @@ class FRadio<T> extends StatefulWidget {
       duration: duration,
       decoration: BoxDecoration(
         border: Border.all(color: normalColor, width: border),
-        borderRadius: BorderRadius.all(Radius.circular(corner)),
+        borderRadius: borderRadius,
       ),
       child: Container(
         width: width,
@@ -106,10 +114,12 @@ class FRadio<T> extends StatefulWidget {
           duration: duration,
           width: 0,
           height: 0,
-          decoration: BoxDecoration(
-            color: normalColor,
-            borderRadius: BorderRadius.all(Radius.circular(corner)),
-          ),
+          decoration: fill
+              ? BoxDecoration(
+                  color: normalColor,
+                  borderRadius: borderRadius,
+                )
+              : null,
         ),
       ),
     );
@@ -134,7 +144,7 @@ class FRadio<T> extends StatefulWidget {
       duration: duration,
       decoration: BoxDecoration(
         border: Border.all(color: selectedColor, width: border),
-        borderRadius: BorderRadius.all(Radius.circular(corner)),
+        borderRadius: borderRadius,
       ),
       child: Container(
         width: width,
@@ -147,7 +157,7 @@ class FRadio<T> extends StatefulWidget {
           decoration: fill
               ? BoxDecoration(
                   color: selectedColor,
-                  borderRadius: BorderRadius.all(Radius.circular(corner)),
+                  borderRadius: borderRadius,
                   gradient: gradient,
                 )
               : null,
@@ -173,12 +183,12 @@ class FRadio<T> extends StatefulWidget {
     this.disableNormal,
     this.disableSelected,
     this.hover,
-    this.enable,
-    this.toggleable,
-    this.width,
-    this.height,
+    this.width = 27,
+    this.height = 27,
+    this.enable = true,
+    this.toggleable = false,
     this.focusNode,
-    this.autofocus,
+    this.autofocus = false,
   }) : super(key: key) {}
 
   @override
@@ -236,18 +246,22 @@ class _Radio<T> extends State<FRadio<T>> {
 
   _buildChild() {
     if (widget.enable) {
-      Widget normal = widget.normal ?? buildDefaultNormalWidget();
+      Widget normal = widget.normal ?? buildDefault();
       if (hover) {
         normal = widget.hover ?? normal;
       }
       return selected
-          ? widget.selected ?? buildDefaultSelectedWidget()
+          ? widget.selected ?? buildDefault()
           : normal;
     } else {
       return selected
-          ? widget.disableSelected ?? buildDefaultDisableSelectedWidget()
-          : widget.disableNormal ?? buildDefaultDisableNormalWidget();
+          ? widget.disableSelected ?? buildDefault()
+          : widget.disableNormal ?? buildDefault();
     }
+  }
+
+  Widget buildDefault() {
+    return Container(color: Colors.transparent);
   }
 
   Widget buildDefaultSelectedWidget() {
@@ -326,4 +340,24 @@ class _Radio<T> extends State<FRadio<T>> {
       hover = value;
     });
   }
+}
+
+class FRadioCorner {
+  final double leftTopCorner;
+  final double rightTopCorner;
+  final double rightBottomCorner;
+  final double leftBottomCorner;
+
+  const FRadioCorner({
+    this.leftTopCorner = 0,
+    this.rightTopCorner = 0,
+    this.rightBottomCorner = 0,
+    this.leftBottomCorner = 0,
+  });
+
+  FRadioCorner.all(double radius)
+      : leftTopCorner = radius,
+        rightTopCorner = radius,
+        rightBottomCorner = radius,
+        leftBottomCorner = radius;
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fradio/fradio.dart';
 
@@ -28,20 +30,44 @@ class FRadioPage extends StatefulWidget {
 }
 
 class _FRadioPageState extends State<FRadioPage> {
-  var groupValue_1 = 0;
+  int groupValue_1 = 0;
   var enable_1 = true;
 
-  var groupValue_2 = '1';
+  int groupValue_2 = 0;
 
-  var value_3 = '0';
-  var text_3 = "未选中状态";
+  int groupValue_3 = 0;
 
-  var value_4 = '0';
-  var text_4 = "未选中状态";
+  int groupValue_4 = 0;
+
+  int groupValue_5 = 0;
+
+  int groupValue_6 = 0;
+
+  int groupValue_7 = 0;
+
+  List<String> list;
 
   @override
   void initState() {
     super.initState();
+    list = [];
+    list.add("Kicks");
+    list.add("No Time To Die");
+    list.add("Pavane in F-Sharp Minor");
+    list.add("Get Stupid");
+    list.add("AAA");
+    list.add("Hostage");
+    list.add("Boundaries");
+    list.add("Broken");
+    list.add("Lo Que Siento");
+    list.add("Bored");
+    list.add("Savage");
+    list.add("Paris");
+    list.add("Bad guy");
+    list.add("My boy");
+    list.add("I love you");
+    list.add("Copycat");
+    list.add("Lovely");
   }
 
   @override
@@ -49,330 +75,482 @@ class _FRadioPageState extends State<FRadioPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffc900),
-        title: const Text('FRadio Demo'),
+        title: const Text('FRadio'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildTitle("FRadio"),
-            _buildSmallMargin(),
+            buildTitle("FRadio"),
+            buildSmallMargin(),
 
             /// 基础用法
             baseDemo(),
-            _buildDesc('FRadio 通过判断 value 属性和 groupValue 属性是否相等\n'
-                '决定它是否处于选中状态'),
-            _buildMiddleMargin(),
-            _buildTitle("自定义 FRadio"),
-            _buildSmallMargin(),
-            _buildDesc('通过设置 "asCheckbox: true" FRadio 可以作为一个单选框\n'
-                "同时 FRadio 支持完全自定义选中、未选中、不可用状态的样式"),
-            StatefulBuilder(builder: (context, state) {
-              return Column(
-                children: <Widget>[
-                  FRadio(
-                    width: 100,
-                    height: 100,
-                    value: 2,
-                    groupValue: groupValue_1,
-                    onChanged: (int value) {
-                      setState(() {
-                        groupValue_1 = value;
-                      });
-                    },
-                    toggleable: true,
-                    enable: enable_1,
-                    selectedColor: Color(0xffffc900),
-                    fill: true,
-                    hasSpace: true,
-                    gradient: LinearGradient(
-                        colors: [Colors.blue, Colors.cyanAccent]),
-                    selectedChild: Icon(
-                      Icons.check,
-                      size: 50,
-                      color: Colors.deepOrange,
-                    ),
-                    duration: Duration(milliseconds: 1000),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      setState(() {
-                        enable_1 = !enable_1;
-                      });
-                    },
-                    color: Color(0xffffc900),
-                    child: Text(
-                      "点击改变 FButton 可用状态",
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    ),
-                  )
-                ],
-              );
-            }),
-            _buildMiddleMargin(),
-            _buildTitle('Radio.style1'),
-            _buildSmallMargin(),
-            Container(
-              padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-              margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
-              decoration: BoxDecoration(
-                  color: Color(0xffffAc500),
-                  borderRadius: BorderRadius.all(Radius.circular(6))),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    '快点击右侧 ✅ 试试啊！',
-                    style: TextStyle(color: Colors.black),
-                  ),
-//                  FRadio.style1(
-//                    value: '0',
-//                    groupValue: '0',
-//                    onChanged: (value) {},
-//                    asCheckbox: true,
-//                    color: Colors.white,
-//                  ),
-                ],
+            buildSmallMargin(),
+            buildDesc('Creating a group of FRadio is very simple.'),
+            buildMiddleMargin(),
+            buildTitle("Enable & Toggleable"),
+            buildSmallMargin(),
+
+            /// Enable & Toggleable
+            enableToggleableDemo(),
+            buildSmallMargin(),
+            RaisedButton(
+              onPressed: () {
+                setState(() {
+                  enable_1 = !enable_1;
+                });
+              },
+              color: Color(0xffffc900),
+              child: Text(
+                "Toggleable",
+                style: TextStyle(fontSize: 12, color: Colors.white),
               ),
             ),
-            _buildDesc("Radio.style1 是一种对勾样式的选择控件"),
-            _buildMiddleMargin(),
-            _buildTitle('Radio.style2'),
-            _buildSmallMargin(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                StatefulBuilder(
-                  builder: (context, state) {
-                    return Column(
-                      children: <Widget>[
-                        Text(
-                          text_3,
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                        ),
-                        const SizedBox(height: 6),
-//                        FRadio.style2(
-//                          value: value_3,
-//                          groupValue: '1',
-//                          onChanged: (value) {
-//                            state(() {
-//                              value_3 = (value_3 != "1") ? "1" : "0";
-//                              text_3 = (value_3 == "1") ? "选中状态" : "未选中状态";
-//                            });
-//                          },
-//                          asCheckbox: true,
-//                        ),
-                      ],
-                    );
-                  },
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      '不可用状态-选中',
-                      style: TextStyle(color: Colors.grey, fontSize: 10),
-                    ),
-                    const SizedBox(height: 6),
-//                    FRadio.style2(
-//                      value: '2',
-//                      groupValue: '2',
-//                      onChanged: (value) {},
-//                      asCheckbox: true,
-//                      enable: false,
-//                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      '不可用状态-未选中',
-                      style: TextStyle(color: Colors.grey, fontSize: 10),
-                    ),
-                    const SizedBox(height: 6),
-//                    FRadio.style2(
-//                      value: '2',
-//                      groupValue: '1',
-//                      onChanged: (value) {},
-//                      asCheckbox: true,
-//                      enable: false,
-//                    ),
-                  ],
-                ),
-              ],
-            ),
-            _buildDesc("Radio.style2 是一种有边框的对勾样式"),
-            _buildMiddleMargin(),
-            _buildTitle('Radio.style3'),
-            _buildSmallMargin(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    StatefulBuilder(builder: (context, state) {
-                      return Column(
-                        children: <Widget>[
-                          Text(
-                            text_4,
-                            style: TextStyle(color: Colors.grey, fontSize: 10),
-                          ),
-                          const SizedBox(height: 6),
-//                          FRadio.style3(
-//                            value: value_4,
-//                            groupValue: '1',
-//                            onChanged: (value) {
-//                              state(() {
-//                                value_4 = (value_4 != "1") ? "1" : "0";
-//                                text_4 = (value_4 == "1") ? "选中状态" : "未选中状态";
-//                              });
-//                            },
-//                            asCheckbox: true,
-//                          ),
-                        ],
-                      );
-                    }),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '不可用状态-选中',
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                        ),
-                        const SizedBox(height: 6),
-//                        FRadio.style3(
-//                          value: '2',
-//                          groupValue: '2',
-//                          onChanged: (value) {},
-//                          asCheckbox: true,
-//                          enable: false,
-//                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '不可用状态-未选中',
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                        ),
-                        const SizedBox(height: 6),
-//                        FRadio.style3(
-//                          value: '2',
-//                          groupValue: '0',
-//                          onChanged: (value) {},
-//                          asCheckbox: true,
-//                          enable: false,
-//                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            _buildDesc("Radio.style3 是一种有圆形边框和渐变填充色的对勾样式\n"
-                "通过 color1、color2 属性可以配置渐变色的起始和结束色"),
-            _buildMiddleMargin(),
-            _buildTitle('如何实现单选？'),
-            _buildSmallMargin(),
-            _buildDesc("通过一个公共变量 groupValue，可轻松实现单选！"),
-            StatefulBuilder(builder: (context, state) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                child: Column(
-                  children: <Widget>[
-                    Divider(
-                      height: 0.5,
-                      color: Colors.grey[300],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '标题0',
-                          style: TextStyle(color: Colors.black),
-                        ),
-//                        FRadio.style1(
-//                          value: '0',
-//                          groupValue: groupValue_2,
-//                          onChanged: (value) {
-//                            state(() {
-//                              groupValue_2 = value;
-//                            });
-//                          },
-//                          asCheckbox: true,
-//                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 0.5,
-                      color: Colors.grey[300],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '标题1',
-                          style: TextStyle(color: Colors.black),
-                        ),
-//                        FRadio.style1(
-//                          value: '1',
-//                          groupValue: groupValue_2,
-//                          onChanged: (value) {
-//                            state(() {
-//                              groupValue_2 = value;
-//                            });
-//                          },
-//                          asCheckbox: true,
-//                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 0.5,
-                      color: Colors.grey[300],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '标题2',
-                          style: TextStyle(color: Colors.black),
-                        ),
-//                        FRadio.style1(
-//                          value: '2',
-//                          groupValue: groupValue_2,
-//                          onChanged: (value) {
-//                            state(() {
-//                              groupValue_2 = value;
-//                            });
-//                          },
-//                          asCheckbox: true,
-//                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 0.5,
-                      color: Colors.grey[300],
-                    ),
-                  ],
-                ),
-              );
-            }),
-            _buildMiddleMargin(),
-            _buildMiddleMargin(),
+            buildMiddleMargin(),
+            buildTitle("Space & Corner & Border"),
+            buildMiddleMargin(),
+
+            /// Space & Corner
+            spaceCornerDemo(),
+            buildMiddleMargin(),
+            buildTitle("Gradient"),
+            buildMiddleMargin(),
+
+            /// gradient
+            gradientDemo(),
+
+            buildMiddleMargin(),
+            buildTitle("Child"),
+            buildMiddleMargin(),
+
+            /// Child
+            childDemo(),
+
+            buildMiddleMargin(),
+            buildTitle("Custom 1"),
+
+            /// Custom 1
+            customDemo1(),
+//            Transform.scale(scale: 1.0, child: customDemo(),),
+
+            buildMiddleMargin(),
+            buildTitle("Custom 2"),
+            buildMiddleMargin(),
+
+            /// Custom 2
+            customDemo2(),
+            buildMiddleMargin(),
+            buildMiddleMargin(),
+            buildMiddleMargin(),
+            buildMiddleMargin(),
           ],
         ),
       ),
+    );
+  }
+
+  Container customDemo2() {
+    return Container(
+      width: 250,
+      height: 400,
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+          color: Color(0xffBDBDBD),
+          blurRadius: 5.0,
+          offset: Offset(2.0, 2.0),
+        )
+      ]),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: list.length,
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return FRadio.custom(
+            value: index,
+            groupValue: groupValue_7,
+            onChanged: (value) {
+              setState(() {
+                groupValue_7 = value;
+              });
+            },
+            normal: Container(
+              width: 250,
+              height: 100,
+              color: Colors.white,
+              padding: EdgeInsets.only(left: 12, right: 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("${list[index]}"),
+                ],
+              ),
+            ),
+            hover: Container(
+              width: 250,
+              height: 100,
+              color: Color(0xff212121).withOpacity(0.05),
+              padding: EdgeInsets.only(left: 12, right: 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("${list[index]}"),
+                ],
+              ),
+            ),
+            selected: Container(
+              padding: EdgeInsets.only(left: 12, right: 12),
+              color: Color(0xff607D8B).withOpacity(0.2),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${list[index]}"),
+                  Icon(
+                    Icons.check,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget customDemo1() {
+    int count = 3;
+    return Stack(
+      children: [
+        Image.asset("assets/icon_radio.png"),
+        Positioned(
+          top: 230,
+          left: 150,
+          child: SizedBox(
+            height: 30,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: count,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(right: index == count - 1 ? 0 : 1),
+                    child: FRadio.custom(
+                      width: 18,
+                      height: 30,
+                      value: index + 1,
+                      groupValue: groupValue_6,
+                      onChanged: (value) {
+                        setState(() {
+                          groupValue_6 = value;
+                        });
+                      },
+                      toggleable: true,
+                      normal: demo3d(Color(0xff686868)),
+                      hover: demo3d(Color(0xff9e9e9e)),
+                      selected: Transform.scale(
+                        scale: 0.85,
+                        alignment: Alignment.center,
+                        child: Container(
+                          child: demo3d(Color(0xffD84315)),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xffFFAB91),
+                                blurRadius: 2.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget demo3d(Color color) {
+    return Stack(
+      children: [
+        /// top
+        Positioned(
+          top: 0,
+          left: 3,
+          child: Transform(
+            transform: Matrix4.skewX(-pi / 6),
+            child: Container(
+              width: 15,
+              height: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+                gradient: LinearGradient(
+                    colors: [color.withOpacity(0.8), color.withOpacity(0.3)],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter),
+              ),
+            ),
+          ),
+        ),
+
+        /// positive
+        Positioned(
+          top: 5,
+          child: Container(
+              width: 15,
+              height: 25,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+              )),
+        ),
+
+        /// side
+        Positioned(
+          top: 5,
+          left: 15,
+          child: Transform(
+            transform: Matrix4.skewY(-pi / 3),
+            child: Container(
+                width: 3,
+                height: 25,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                    gradient: LinearGradient(
+                        colors: [
+                          color.withOpacity(0.8),
+                          color.withOpacity(0.5)
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight))),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget gradientDemo() {
+    return SizedBox(
+      height: 50,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: 5,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(right: index == 4 ? 0 : 10),
+              child: FRadio(
+                width: 50,
+                height: 50,
+                value: index + 1,
+                groupValue: groupValue_4,
+                onChanged: (value) {
+                  setState(() {
+                    groupValue_4 = value;
+                  });
+                },
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xffFEFDBB),
+                    Color(0xffFFE16C),
+                    Color(0xffEA9D1C),
+                    Color(0xffD46307),
+                  ],
+                  begin: Alignment(-0.1, -0.9),
+                  end: Alignment(1.0, 1.0),
+                  stops: [0.0, 0.2, 0.7, 1.0],
+                ),
+                selectedColor: Color(0xffffc900),
+                hasSpace: false,
+                border: 1.5,
+                child: Text(
+                  "\$${5 * (index + 1)}",
+                  style: TextStyle(color: Color(0xffd9d9d9), fontSize: 13),
+                ),
+                hoverChild: Text(
+                  "\$${5 * (index + 1)}",
+                  style:
+                      TextStyle(color: Colors.deepOrangeAccent, fontSize: 13),
+                ),
+                selectedChild: Text("\$${5 * (index + 1)}",
+                    style: TextStyle(
+                        color: Colors.deepOrangeAccent, fontSize: 13)),
+              ),
+            );
+          }),
+    );
+  }
+
+  Widget childDemo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          children: [
+            Text("EN.."),
+            const SizedBox(height: 9),
+            FRadio(
+              width: 80,
+              height: 80,
+              value: 1,
+              groupValue: groupValue_5,
+              onChanged: (value) {
+                setState(() {
+                  groupValue_5 = value;
+                });
+              },
+              child: Image.asset("assets/emoji_0.png", width: 50),
+              hoverChild: Image.asset("assets/emoji_1.png", width: 50),
+              selectedChild: Image.asset("assets/emoji_2.png", width: 50),
+              hasSpace: false,
+              toggleable: true,
+              selectedColor: Color(0xffffc900),
+              border: 1.5,
+            ),
+          ],
+        ),
+        const SizedBox(width: 56),
+        Column(
+          children: [
+            Text("YA.."),
+            const SizedBox(height: 9),
+            FRadio(
+              width: 80,
+              height: 80,
+              value: 2,
+              groupValue: groupValue_5,
+              onChanged: (value) {
+                setState(() {
+                  groupValue_5 = value;
+                });
+              },
+              child: Image.asset("assets/emoji_3.png", width: 50),
+              hoverChild: Image.asset("assets/emoji_4.png", width: 50),
+              selectedChild: Image.asset("assets/emoji_5.png", width: 50),
+              hasSpace: false,
+              toggleable: true,
+              selectedColor: Color(0xffffc900),
+              border: 1.5,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget spaceCornerDemo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FRadio(
+          width: 100,
+          height: 50,
+          value: 1,
+          groupValue: groupValue_3,
+          onChanged: (value) {
+            setState(() {
+              groupValue_3 = value;
+            });
+          },
+          selectedColor: Color(0xffffc900),
+          corner: FRadioCorner(leftTopCorner: 6, leftBottomCorner: 6),
+          border: 1,
+          hasSpace: false,
+          selectedChild:
+              Text("FSuper", style: TextStyle(color: Color(0xff333333))),
+          child: Text("FSuper", style: TextStyle(color: Color(0xff333333))),
+        ),
+        FRadio(
+          width: 100,
+          height: 50,
+          value: 2,
+          groupValue: groupValue_3,
+          onChanged: (value) {
+            setState(() {
+              groupValue_3 = value;
+            });
+          },
+          selectedColor: Color(0xffffc900),
+          corner: FRadioCorner.all(0),
+          hasSpace: false,
+          border: 1,
+          selectedChild:
+              Text("FButton", style: TextStyle(color: Color(0xff333333))),
+          child: Text("FButton", style: TextStyle(color: Color(0xff333333))),
+        ),
+        FRadio(
+          width: 100,
+          height: 50,
+          value: 3,
+          groupValue: groupValue_3,
+          onChanged: (value) {
+            setState(() {
+              groupValue_3 = value;
+            });
+          },
+          selectedColor: Color(0xffffc900),
+          corner: FRadioCorner(rightTopCorner: 6, rightBottomCorner: 6),
+          hasSpace: false,
+          border: 1,
+          selectedChild:
+              Text("FRadio", style: TextStyle(color: Color(0xff333333))),
+          child: Text("FRadio", style: TextStyle(color: Color(0xff333333))),
+        ),
+      ],
+    );
+  }
+
+  Widget enableToggleableDemo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FRadio(
+          value: 1,
+          groupValue: groupValue_2,
+          onChanged: (value) {
+            setState(() {
+              groupValue_2 = value;
+            });
+          },
+          toggleable: true,
+          selectedColor: Color(0xffffc900),
+        ),
+        const SizedBox(width: 5),
+        Text("Android", style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 16),
+        FRadio(
+          value: 2,
+          groupValue: groupValue_2,
+          onChanged: (value) {
+            setState(() {
+              groupValue_2 = value;
+            });
+          },
+          enable: enable_1,
+          toggleable: true,
+          selectedColor: Color(0xffffc900),
+        ),
+        const SizedBox(width: 5),
+        Text("iOS", style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 16),
+        FRadio(
+          value: 3,
+          groupValue: groupValue_2,
+          onChanged: (value) {
+            setState(() {
+              groupValue_2 = value;
+            });
+          },
+          toggleable: true,
+          selectedColor: Color(0xffffc900),
+        ),
+        const SizedBox(width: 5),
+        Text("Fuchsia", style: TextStyle(fontSize: 16)),
+      ],
     );
   }
 
@@ -419,15 +597,15 @@ class _FRadioPageState extends State<FRadioPage> {
     );
   }
 
-  SizedBox _buildMiddleMargin() {
+  SizedBox buildMiddleMargin() {
     return const SizedBox(
-      height: 18,
+      height: 26,
     );
   }
 
-  SizedBox _buildSmallMargin() {
+  SizedBox buildSmallMargin() {
     return const SizedBox(
-      height: 10,
+      height: 18,
     );
   }
 
@@ -450,7 +628,7 @@ class _FRadioPageState extends State<FRadioPage> {
             ));
   }
 
-  Padding _buildDesc(String desc) {
+  Padding buildDesc(String desc) {
     return Padding(
         padding: const EdgeInsets.all(8),
         child: Text(
@@ -463,7 +641,7 @@ class _FRadioPageState extends State<FRadioPage> {
         ));
   }
 
-  Container _buildTitle(String title) {
+  Container buildTitle(String title) {
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.all(9),

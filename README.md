@@ -97,8 +97,8 @@
 |---|---|:---:|---|---|
 |normalColor|Color|false|`Color(0xffd9d9d9)`|Unselected color|
 |selectedColor|Color|false|`Color(0xff2593fc)`|Selected color|
-|hasSpace|bool|false|true|Is there a gap between the inner padding and the edges? The default is true. The spacing is provided by [FSuper] the golden ratio, developers do not need to care.|
-|border|double|false|null|The border is wide. By default, [FSuper] provides the golden ratio, and developers do not need to care.|
+|hasSpace|bool|false|true|Is there a gap between the inner padding and the edges? The default is true. The spacing is provided by [FRadio] the golden ratio, developers do not need to care.|
+|border|double|false|null|The border is wide. By default, [FRadio] provides the golden ratio, and developers do not need to care.|
 |child|Widget|false|null|The decoration components in the unselected state are at the top level.|
 |selectedChild|Widget|false|null|The decorative component in the selected state is at the top level.|
 |hoverChild|Widget|false|null|The decoration component when hovering the mouse is at the top level.|
@@ -198,7 +198,7 @@ FRadio(
 )
 ```
 
-In this chestnut 🌰, **FSuper** shows several abilities that are not possible for radio components.
+In this chestnut 🌰, **FRadio** shows several abilities that are not possible for radio components.
 
 Through the `corner` attribute, you can accurately control the corners so that **FRadio** is no longer a circle.
 

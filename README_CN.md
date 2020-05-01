@@ -97,8 +97,8 @@
 |---|---|:---:|---|---|
 |normalColor|Color|否|`Color(0xffd9d9d9)`|未选中状态下的颜色|
 |selectedColor|Color|否|`Color(0xff2593fc)`|选中状态下的颜色|
-|hasSpace|bool|否|true|内部填充和边缘是否有间距。默认为 true。间距由 [FSuper] 提供黄金比例，开发者无需关心。|
-|border|double|否|null|边框宽。默认由 [FSuper] 提供黄金比例，开发者无需关心。|
+|hasSpace|bool|否|true|内部填充和边缘是否有间距。默认为 true。间距由 [FRadio] 提供黄金比例，开发者无需关心。|
+|border|double|否|null|边框宽。默认由 [FRadio] 提供黄金比例，开发者无需关心。|
 |child|Widget|否|null|未选中状态下的装饰组件，处于最上层级。|
 |selectedChild|Widget|否|null|选中状态下的装饰组件，处于最上层级。|
 |hoverChild|Widget|否|null|鼠标悬停时的装饰组件，处于最上层级。|
@@ -198,7 +198,7 @@ FRadio(
 )
 ```
 
-在这个栗子 🌰 中，**FSuper** 展示出了几个对于单选组件来说不可以的能力。
+在这个栗子 🌰 中，**FRadio** 展示出了几个对于单选组件来说不可以的能力。
 
 通过 `corner` 属性，你可以准确的控制边角，让 **FRadio** 不再是一个圆形。
 

@@ -408,3 +408,19 @@ limitations under the License.
 
 
 ### Like it? Please cast your [**Star**](https://github.com/Fliggy-Android-Team/fradio)  🥰 ！
+
+
+
+--
+
+# How to run Demo project?
+
+1. **clone** project to local
+
+2. Enter the project `example` directory and run the following command
+
+```
+flutter create .
+```
+
+3. Run the demo in `example`

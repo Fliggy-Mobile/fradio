@@ -409,3 +409,18 @@ limitations under the License.
 
 
 ### 感觉还不错？请投出您的 [**Star**](https://github.com/Fliggy-Android-Team/fradio) 吧 🥰 ！
+
+
+--
+
+# 如何运行 Demo 工程？
+
+1. **clone** 工程到本地
+
+2. 进入工程 `example` 目录，运行以下命令
+
+```
+flutter create .
+```
+
+3. 运行 `example` 中的 Demo

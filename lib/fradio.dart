@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -225,16 +226,28 @@ class FRadio<T> extends StatefulWidget {
         child ?? Container(),
       ],
     );
-    disableSelected = ColorFiltered(
-      colorFilter: ColorFilter.mode(
-          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
-      child: selected,
-    );
-    disableNormal = ColorFiltered(
-      colorFilter: ColorFilter.mode(
-          Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
-      child: normal,
-    );
+    if (kIsWeb == true) {
+      disableSelected = Container(
+        foregroundDecoration: BoxDecoration(color: Color(0xfff1f1f1).withOpacity(0.6)),
+        child: selected,
+      );
+      disableNormal = Container(
+        foregroundDecoration: BoxDecoration(color: Color(0xfff1f1f1).withOpacity(0.6)),
+        child: normal,
+      );
+    } else {
+      disableSelected = ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+        child: selected,
+      );
+      disableNormal = ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            Color(0xfff1f1f1).withOpacity(0.6), BlendMode.srcATop),
+        child: normal,
+      );
+    }
+
     hover = AnimatedContainer(
       duration: duration,
       decoration: BoxDecoration(

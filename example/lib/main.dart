@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fbutton/fbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:fradio/fradio.dart';
 
@@ -31,7 +32,7 @@ class FRadioPage extends StatefulWidget {
 
 class _FRadioPageState extends State<FRadioPage> {
   int groupValue_1 = 0;
-  var enable_1 = true;
+  bool enable_1 = true;
 
   int groupValue_2 = 0;
 
@@ -96,17 +97,21 @@ class _FRadioPageState extends State<FRadioPage> {
             /// Enable & Toggleable
             enableToggleableDemo(),
             buildSmallMargin(),
-            RaisedButton(
+            FButton(
+              width: 100,
+              corner: FButtonCorner.all(6),
+              text: "Toggleable",
+              textColor: Colors.white,
+              fontSize: 12,
               onPressed: () {
                 setState(() {
                   enable_1 = !enable_1;
                 });
               },
               color: Color(0xffffc900),
-              child: Text(
-                "Toggleable",
-                style: TextStyle(fontSize: 12, color: Colors.white),
-              ),
+              shadowColor: Colors.black.withOpacity(0.2),
+              shadowBlur: 1.0,
+              effect: true,
             ),
             buildMiddleMargin(),
             buildTitle("Space & Corner & Border"),

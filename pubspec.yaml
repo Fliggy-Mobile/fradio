@@ -1,6 +1,6 @@
 name: fradio
-description: FRadio Flexible and beautiful radio components, using FRadio can quickly build a rich and wonderful radio view. FRadio allows developers to accurately configure the interaction cycle state of the entire radio component, which is very important for modern applications. Now, our users always expect feedback from each interaction. And FRadio makes the construction of the view changes brought by such complex state changes extremely simple.
-version: 1.0.0
+description: A radio component suitable for almost any radio scenario. You will like it.
+version: 1.0.1
 author: CoorChice<coorchice.cb@alibaba-inc.com>
 homepage: https://github.com/Fliggy-Mobile/fradio
 

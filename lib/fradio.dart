@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 /// [FRadio] Flexible and beautiful radio components, using [FRadio] can quickly build a rich and wonderful radio view.
 /// [FRadio] allows developers to accurately configure the interaction cycle state of the entire radio component, which is very important for modern applications.
 /// Now, our users always expect feedback from each interaction. And [FRadio] makes the construction of the view changes brought by such complex state changes extremely simple.
+// ignore: must_be_immutable
 class FRadio<T> extends StatefulWidget {
   /// [FRadio] 所代表的的值。当 [groupValue] == [value] 时，进入选中状态。
   ///
@@ -81,8 +82,6 @@ class FRadio<T> extends StatefulWidget {
   ///
   /// The style when the mouse enters
   Widget hover;
-
-  T _cacheGroupValue;
 
   /// 默认情况下，[FRadio] 有一套十分灵活的样式风格。
   /// 开发者无需自己配置 [normal]、[selected]、[disableNormal]、[disableSelected] 以及 [hover]。

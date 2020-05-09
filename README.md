@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/Fliggy-Android-Team">
+  <a href="https://github.com/Fliggy-Mobile">
     <img width="200" src="https://gw.alicdn.com/tfs/TB1a288sxD1gK0jSZFKXXcJrVXa-360-360.png">
   </a>
 </p>
@@ -22,12 +22,12 @@
 </a>
 
 
-<a href="https://github.com/Fliggy-Android-Team/fradio">
+<a href="https://github.com/Fliggy-Mobile/fradio">
     <img height="20" src="https://img.shields.io/badge/Build-passing-brightgreen.svg">
 </a>
 
 
-<a href="https://github.com/Fliggy-Android-Team">
+<a href="https://github.com/Fliggy-Mobile">
     <img height="20" src="https://img.shields.io/badge/Team-FAT-ffc900.svg">
 </a>
 
@@ -50,7 +50,7 @@
 
 </div>
 
-**English | [简体中文](https://github.com/Fliggy-Android-Team/fradio/blob/master/README_CN.md)**
+**English | [简体中文](https://github.com/Fliggy-Mobile/fradio/blob/master/README_CN.md)**
 
 > Like it? Please cast your **Star**  🥰 ！
 
@@ -380,11 +380,11 @@ dependencies:
 dependencies:
   fradio:
     git:
-      url: 'git@github.com:Fliggy-Android-Team/fradio.git'
+      url: 'git@github.com:Fliggy-Mobile/fradio.git'
       ref: ''<Branch number or tag number>'
 ```
 
-> ⚠️ Attention，please refer to [**FRadio**] (https://github.com/Fliggy-Android-Team/fradio) official project for branch number or tag.
+> ⚠️ Attention，please refer to [**FRadio**] (https://github.com/Fliggy-Mobile/fradio) official project for branch number or tag.
 
 
 # 💡 License
@@ -407,7 +407,7 @@ limitations under the License.
 ```
 
 
-### Like it? Please cast your [**Star**](https://github.com/Fliggy-Android-Team/fradio)  🥰 ！
+### Like it? Please cast your [**Star**](https://github.com/Fliggy-Mobile/fradio)  🥰 ！
 
 
 

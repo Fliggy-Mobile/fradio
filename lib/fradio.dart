@@ -51,7 +51,7 @@ class FRadio<T> extends StatefulWidget {
   /// 焦点
   ///
   /// focusNode
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// 是否允许自动获取焦点
   ///
@@ -61,27 +61,27 @@ class FRadio<T> extends StatefulWidget {
   /// 未选中状态样式
   ///
   /// Unchecked state style
-  Widget normal;
+  Widget? normal;
 
   /// 选中状态样式
   ///
   /// Selected state style
-  Widget selected;
+  Widget? selected;
 
   /// 未选中状态时的不可用样式
   ///
   /// Unavailable style when unchecked
-  Widget disableNormal;
+  Widget? disableNormal;
 
   /// 选中状态样式不可用样式
   ///
   /// Unavailable styles selected
-  Widget disableSelected;
+  Widget? disableSelected;
 
   /// 鼠标进入时的样式
   ///
   /// The style when the mouse enters
-  Widget hover;
+  Widget? hover;
 
   /// 默认情况下，[FRadio] 有一套十分灵活的样式风格。
   /// 开发者无需自己配置 [normal]、[selected]、[disableNormal]、[disableSelected] 以及 [hover]。
@@ -128,10 +128,10 @@ class FRadio<T> extends StatefulWidget {
   ///
   /// [corner] 边角。默认 [FRadio] 为圆形。 (Corner. The default [FRadio] is round.)
   FRadio({
-    Key key,
-    @required this.value,
-    @required this.groupValue,
-    @required this.onChanged,
+    Key? key,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
     this.width = 27,
     this.height = 27,
     this.enable = true,
@@ -141,14 +141,14 @@ class FRadio<T> extends StatefulWidget {
     Color selectedColor = const Color(0xff2593fc),
     Color normalColor = const Color(0xffd9d9d9),
     bool hasSpace = true,
-    double border,
-    Widget child,
-    Widget selectedChild,
-    Widget hoverChild,
-    Gradient gradient,
+    double? border,
+    Widget? child,
+    Widget? selectedChild,
+    Widget? hoverChild,
+    Gradient? gradient,
     Duration duration = const Duration(milliseconds: 150),
     bool fill = true,
-    FRadioCorner corner,
+    FRadioCorner? corner,
   }) : super(key: key) {
     if (hoverChild == null) {
       hoverChild = selectedChild;
@@ -191,7 +191,7 @@ class FRadio<T> extends StatefulWidget {
     selected = Stack(
       alignment: Alignment.center,
       children: [
-        selected,
+        selected ?? Container(),
         selectedChild ?? Container(),
       ],
     );
@@ -221,7 +221,7 @@ class FRadio<T> extends StatefulWidget {
     normal = Stack(
       alignment: Alignment.center,
       children: [
-        normal,
+        normal ?? Container(),
         child ?? Container(),
       ],
     );
@@ -274,7 +274,7 @@ class FRadio<T> extends StatefulWidget {
     hover = Stack(
       alignment: Alignment.center,
       children: [
-        hover,
+        hover ?? Container(),
         hoverChild ?? Container(),
       ],
     );
@@ -284,10 +284,10 @@ class FRadio<T> extends StatefulWidget {
   ///
   /// The [FRadio.custom] constructor allows users to customize the configuration [normal], [selected], [disableNormal], [disableSelected] and [hover].
   FRadio.custom({
-    Key key,
-    this.value,
-    this.groupValue,
-    this.onChanged,
+    Key? key,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
     this.normal,
     this.selected,
     this.disableNormal,
@@ -312,7 +312,7 @@ class _Radio<T> extends State<FRadio<T>> {
 
   bool get selected => widget.value == widget.groupValue;
 
-  T cacheGroupValue;
+  late T cacheGroupValue;
 
   bool hover = false;
 
@@ -322,12 +322,12 @@ class _Radio<T> extends State<FRadio<T>> {
   }
 
   void _handOnTap() {
-    if (widget.onChanged != null) {
-      if (widget.toggleable) {
-        widget.onChanged(selected ? null : widget.value);
-      } else {
+    if (widget.toggleable) {
+      if (!selected) {
         widget.onChanged(widget.value);
       }
+    } else {
+      widget.onChanged(widget.value);
     }
   }
 

@@ -80,8 +80,8 @@
 |onChanged|`ValueChanged<T>`|否|null|当 [FRadio] 被变为选中时会回调|
 |enable|bool|否|true|是否可用。不可用的 [FRadio] 将无法通过点击改变当前状态。通过 [disableNormal] 和 [disableSelected] 可以自定义不可用状态下的样式。|
 |toggleable|bool|否|false|是否可以取消选中。|
-|width|double|否|27|宽度。|
-|height|double|否|27|高度|
+|width|double?|否|27|宽度。在 [FRadio.custom] 中传 null 将自适应子组件宽度|
+|height|double?|否|27|高度。在 [FRadio.custom] 中传 null 将自适应子组件高度|
 |normal|Widget|否|null|未选中状态样式|
 |selected|Widget|否|null|选中状态样式|
 |disableNormal|Widget|否|null|未选中状态时的不可用样式|

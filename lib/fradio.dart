@@ -38,15 +38,23 @@ class FRadio<T> extends StatefulWidget {
   /// Is it possible to uncheck it.
   final bool toggleable;
 
-  /// 宽度。
+  /// 宽度。默认为 27。
+  /// 在 [FRadio.custom] 中传 null 时，[FRadio] 将自适应子组件的宽度；
+  /// 在默认构造函数中传 null 时，将使用默认值 27。
   ///
-  /// width
-  final double width;
+  /// width. The default is 27. When null is passed to [FRadio.custom], [FRadio] will
+  /// adapt to the width of the child widget; when null is passed to the default
+  /// constructor, the default value of 27 will be used.
+  final double? width;
 
-  /// 高度。
+  /// 高度。默认为 27。
+  /// 在 [FRadio.custom] 中传 null 时，[FRadio] 将自适应子组件的高度；
+  /// 在默认构造函数中传 null 时，将使用默认值 27。
   ///
-  /// height.
-  final double height;
+  /// height. The default is 27. When null is passed to [FRadio.custom], [FRadio] will
+  /// adapt to the height of the child widget; when null is passed to the default
+  /// constructor, the default value of 27 will be used.
+  final double? height;
 
   /// 焦点
   ///
@@ -132,8 +140,8 @@ class FRadio<T> extends StatefulWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
-    this.width = 27,
-    this.height = 27,
+    double? width,
+    double? height,
     this.enable = true,
     this.toggleable = false,
     this.focusNode,
@@ -149,13 +157,17 @@ class FRadio<T> extends StatefulWidget {
     Duration duration = const Duration(milliseconds: 150),
     bool fill = true,
     FRadioCorner? corner,
-  }) : super(key: key) {
+  }) : width = width ?? 27,
+       height = height ?? 27,
+       super(key: key) {
+    double w = width ?? 27;
+    double h = height ?? 27;
     if (hoverChild == null) {
       hoverChild = selectedChild;
     }
-    border = border ?? width * 0.075;
+    border = border ?? w * 0.075;
     BorderRadius borderRadius = corner == null
-        ? BorderRadius.all(Radius.circular(width / 2.0))
+        ? BorderRadius.all(Radius.circular(w / 2.0))
         : BorderRadius.only(
             topLeft: Radius.circular(corner.leftTopCorner),
             topRight: Radius.circular(corner.rightTopCorner),
@@ -171,13 +183,13 @@ class FRadio<T> extends StatefulWidget {
         borderRadius: borderRadius,
       ),
       child: Container(
-        width: width,
-        height: height,
+        width: w,
+        height: h,
         alignment: Alignment.center,
         child: AnimatedContainer(
           duration: duration,
-          width: hasSpace ? width * 0.518 : width,
-          height: hasSpace ? height * 0.518 : height,
+          width: hasSpace ? w * 0.518 : w,
+          height: hasSpace ? h * 0.518 : h,
           decoration: fill
               ? BoxDecoration(
                   color: selectedColor,
@@ -192,7 +204,7 @@ class FRadio<T> extends StatefulWidget {
       alignment: Alignment.center,
       children: [
         selected!,
-        selectedChild ?? Container(),
+        selectedChild ?? SizedBox.shrink(),
       ],
     );
     normal = AnimatedContainer(
@@ -202,8 +214,8 @@ class FRadio<T> extends StatefulWidget {
         borderRadius: borderRadius,
       ),
       child: Container(
-        width: width,
-        height: height,
+        width: w,
+        height: h,
         alignment: Alignment.center,
         child: AnimatedContainer(
           duration: duration,
@@ -222,7 +234,7 @@ class FRadio<T> extends StatefulWidget {
       alignment: Alignment.center,
       children: [
         normal!,
-        child ?? Container(),
+        child ?? SizedBox.shrink(),
       ],
     );
     if (kIsWeb == true) {
@@ -254,8 +266,8 @@ class FRadio<T> extends StatefulWidget {
         borderRadius: borderRadius,
       ),
       child: Container(
-        width: width,
-        height: height,
+        width: w,
+        height: h,
         alignment: Alignment.center,
         child: AnimatedContainer(
           duration: duration,
@@ -275,7 +287,7 @@ class FRadio<T> extends StatefulWidget {
       alignment: Alignment.center,
       children: [
         hover!,
-        hoverChild ?? Container(),
+        hoverChild ?? SizedBox.shrink(),
       ],
     );
   }

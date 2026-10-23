@@ -80,8 +80,8 @@
 |onChanged|`ValueChanged<T>`|false|null|Callback when [FRadio] is selected|
 |enable|bool|false|true|it's usable or not. Unavailable [FRadio] will not be able to change the current state by clicking. Through [disableNormal] and [disableSelected], you can customize the style in the unavailable state.|
 |toggleable|bool|false|false|Is it possible to uncheck it.|
-|width|double|false|27|width|
-|height|double|false|27|height|
+|width|double?|false|27|width. In [FRadio.custom], null means adapting to the child widget's width|
+|height|double?|false|27|height. In [FRadio.custom], null means adapting to the child widget's height|
 |normal|Widget|false|null|Unselected state style|
 |selected|Widget|false|null|Selected state style|
 |disableNormal|Widget|false|null|Unavailable style when unchecked|
